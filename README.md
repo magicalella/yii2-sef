@@ -1,58 +1,58 @@
-Yii2 ЧПУ ссылок (URL) для сайта
+Collegamenti CNC Yii2 (URL) per il sito
 =======
 
 
-Установка
+Installazione
 ------------
 
-Предпочтительный способ установки этого расширения через [composer](http://getcomposer.org/download/).
+Il modo migliore per installare questa estensione è tramite [composer](http://getcomposer.org/download/).
 
-Запустить
+Lancia
 
 ```
-php composer.phar require --prefer-dist alex290/yii2-sef "*"
+php compositore.phar require --prefer-dist alex290/yii2-sef "*"
 ```
 
-или добавить
+o aggiungi
 
 ```
 "alex290/yii2-sef": "*"
 ```
 
-в секцию require вашего `composer.json` файла.
+nella sezione require del tuo file "composer.json".
 
-**И запустить миграцию файла**
+**E avvia la migrazione dei file**
 
-	yii migrate/up --migrationPath=@vendor/alex290/yii2-sef/migrations
+yii migrazione/up --migrationPath=@vendor/alex290/yii2-sef/migrations
 
-Можно создать вручную. А именно - таблицу `sef`, в ней только 3 поля:
+Può essere creato manualmente. Vale a dire, la tabella `sef` ha solo 3 campi:
 
-id (primaryKey, AUTO_INCREMENT);
+id(chiaveprimaria, AUTO_INCREMENT);
 
-link (varchar(255));
+collegamento(varchar(255));
 
-link_sef (varchar(255)).
+link_sef(varchar(255)).
 
 
-Использование
+Utilizzo
 -----
 
-В файле: `config/web.php` прописать
+Nel file: `config/web.php` o `frontend/config/main.php` se yii advanced scrivi
 
-        'urlManager' => [
-        'enablePrettyUrl' => true,
-        'showScriptName' => false,
-        'rules' => [
-                // Тут свои правила.
-                [ 
-                    'class' => 'alex290\sef\SefRule',
-                    'connectionID' => 'db',
-                ],
-            ],
-        ],
+         'urlManager' => [
+         'enablePrettyUrl' => vero,
+         'showScriptName' => falso,
+         'regole' => [
+                 // Ci sono delle regole qui.
+                 [
+                     'classe' => 'alex290\sef\SefRule',
+                     'IDconnessione' => 'db',
+                 ],
+             ],
+         ],
 
-Для админки можно создать модель `Sef`, а можно использовать готовую `alex290\sef\Sef`
+Per il pannello di amministrazione, puoi creare un modello "Sef" oppure puoi utilizzare un modello "alex290\sef\Sef" già pronto
 
-'link' = это поле оригинальной ссылки например, article/view?id=49
+'link' = questo è il campo del collegamento originale, ad esempio articolo/vista?id=49
 
-'link_sef' = это поле синоним URL
+'link_sef' = questo campo è sinonimo dell'URL
