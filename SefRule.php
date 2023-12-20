@@ -31,11 +31,11 @@ class SefRule extends BaseObject implements UrlRuleInterface {
 
     public function createUrl($manager, $route, $params) {
         //debug($route);
-        //Определяем контроллеры, у которых к страницам нужно добавлять .html
-        $controller = explode('/', $route)[0]; //Получаем контроллер        
+        //Determiniamo i controller che devono essere aggiunti alle pagine .html
+        $controller = explode('/', $route)[0]; //Otteniamo il controllore        
         $html = '';
 
-        //Если передаются параметры (напрмиер ?id=3&page=2) сохраняем в $link по-очереди
+        //Se vengono passati parametri (ad esempio ?id=3&page=2) li salviamo in $link uno per uno
         $link = '';
         $page = '';
         if (count($params)) {
@@ -53,15 +53,15 @@ class SefRule extends BaseObject implements UrlRuleInterface {
                 }
                 $link .= "$key=$newValue&";
             }
-            $link = substr($link, 0, -1); //удаляем последний символ (&)
+            $link = substr($link, 0, -1); //rimuovere l'ultimo carattere (&)
         }
-        //Из БД получаем строку со ссылкой на которую нужно будет поменять
+        //Dal database otteniamo una riga con un collegamento a cui dovremo modificare
         $sef = Sef::find()->where(['link' => $route . $link])
         ->andWhere(['!=','link_sef',''])
         ->one();
 
         if ($sef) {
-            //Если есть - добавляем пагинацию в конец (?page=2)
+            //Se c'è, aggiungi l'impaginazione alla fine (?page=2)
             if ($page)
                 return $sef->link_sef . "?page=$page";
             else
@@ -71,36 +71,36 @@ class SefRule extends BaseObject implements UrlRuleInterface {
     }
 
     public function parseRequest($manager, $request) {
-        //Получаем URL
+        //Noi abbiamo URL
         $pathInfo = $request->getPathInfo();
 
-        //Получаем 1 часть, до слэша, если есть
+        //Otteniamo 1 parte, prima della barra, se presente
         $alias = explode('/', $pathInfo)[0];
-        //Если на конце .html, то убираем для поиска в БД
+        //Se alla fine è presente .html, lo rimuoviamo per la ricerca nel database
         $alias_small = str_replace(".html", "", $alias);
 
-        //не выводить .html для указанных URL (первая часть алиаса)
+        //non restituire .html per gli URL specificati (prima parte dell'alias)
         $not_html = [
             'category', 'article', 'posts', 'notes'
         ];
 
         /*
-         * Проверяем наличие URL (до слэша) в $not_html
-         * Если есть, то в URL не должно быть окончание .html
-         * $exception = true разрешает поиск URL в БД
-         */
+          * Verifica la presenza di un URL (prima della barra) in $not_html
+          * Se sì, l'URL non deve terminare con .html
+          * $exception = true consente la ricerca URL nel database
+        */
 
 
-        //получаем из БД данные по строке содержащей заданный алиас
+        //riceviamo i dati dal database per una riga contenente un dato alias
         $sef = Sef::find()->where(['link_sef' => $pathInfo])->one();
 
         if ($sef) {
-            //Разбивает строку типа post/view?id=5 на массив по разделителю
+            //Divide una stringa come post/view?id=5 in un array in base al delimitatore
             $link_data = explode('?', $sef->link);
-            //берем только первую часть без параметров (контроллер/действие)
+            //prendi solo la prima parte senza parametri (controller/azione)
             $route = $link_data[0];
             $params = array();
-            //если есть параметры - вставляем их 
+            //se ci sono parametri inserirli
             if (isset($link_data[1])) {
                 $temp = explode('&', $link_data[1]);
                 foreach ($temp as $t) {
@@ -108,8 +108,8 @@ class SefRule extends BaseObject implements UrlRuleInterface {
                     $params[$t[0]] = $t[1];
                 }
             }
-            //$route - контроллер/действие
-            //$params - параметры
+            //$route - controllore/azione
+            //$params - opzioni
             return [$route, $params];
         }
 
