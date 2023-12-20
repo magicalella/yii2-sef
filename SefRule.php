@@ -56,7 +56,9 @@ class SefRule extends BaseObject implements UrlRuleInterface {
             $link = substr($link, 0, -1); //удаляем последний символ (&)
         }
         //Из БД получаем строку со ссылкой на которую нужно будет поменять
-        $sef = Sef::find()->where(['link' => $route . $link])->one();
+        $sef = Sef::find()->where(['link' => $route . $link])
+        ->andWhere(['!=','link_sef',''])
+        ->one();
 
         if ($sef) {
             //Если есть - добавляем пагинацию в конец (?page=2)
