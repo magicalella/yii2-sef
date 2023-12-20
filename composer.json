@@ -1,13 +1,13 @@
 {
-    "name": "alex290/yii2-sef",
+    "name": "magicalella/yii2-sef",
     "description": "Sef URL",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","sef"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Alexandr Martynov",
-            "email": "alex@webgoal.ru"
+            "name": "Raffaella Lollini",
+            "email": "raffaella@kattivamente.it"
         }
     ],
     "require": {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "alex290\\sef\\": ""
+            "magicalella\\sef\\": ""
         }
     }
 }

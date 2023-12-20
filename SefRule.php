@@ -1,8 +1,8 @@
 <?php
 
-namespace alex290\sef;
+namespace magicalella\sef;
 
-use alex290\sef\Sef;
+use magicalella\sef\Sef;
 use yii\web\UrlRuleInterface;
 use yii\base\BaseObject;
 
