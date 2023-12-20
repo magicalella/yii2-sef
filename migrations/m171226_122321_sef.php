@@ -19,7 +19,9 @@ class m171226_122321_sef extends Migration
 	$this->createTable('{{%sef}}', [
 		'id' => $this->primaryKey(),
 		'link' => $this->string()->notNull(),
-		'link_sef' => $this->string()->notNull(),        
+		'link_sef' => $this->string()->notNull(),
+        'meta_title' => $this->string(),
+        'meta_description' => $this->string(),        
 	], $tableOptions);
 
     }
