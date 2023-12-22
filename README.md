@@ -23,7 +23,7 @@ nella sezione require del tuo file "composer.json".
 
 **E avvia la migrazione dei file**
 
-yii migrazione/up --migrationPath=@vendor/magicalella/yii2-sef/migrations
+yii migrate/up --migrationPath=@vendor/magicalella/yii2-sef/migrations
 
 Può essere creato manualmente. Vale a dire, la tabella `sef` ha solo 3 campi:
 
