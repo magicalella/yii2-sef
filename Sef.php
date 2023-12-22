@@ -3,7 +3,7 @@
 * @author    Magilla Company <info@magilla.company>
 * @copyright 2023 Magilla Company
 */
-namespace magicalella\sef\models;
+namespace magicalella\sef;
 
 use Yii;
 use yii\helpers\Html;
