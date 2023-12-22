@@ -6,6 +6,7 @@
 namespace backend\controllers;
 
 use Yii;
+// se si estende la classe Sef qui mettere common\models\Sef (Yii advanced) o app\\models\Sef
 use magicalella\models\Sef;
 use magicalella\models\SefSearch;
 use yii\web\Controller;
