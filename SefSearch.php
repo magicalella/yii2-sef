@@ -3,11 +3,11 @@
 * @author    Raffaella Lollini <raffaella@kattivamente.it>
 * @copyright 2023 Raffaella Lollini
 */
-namespace common\models;
+namespace magicalella\sef;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Sef;
+use magicalella\Sef;
 
 /**
  * SefSearch represents the model behind the search form of `common\models\Sef`.

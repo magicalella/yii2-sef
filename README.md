@@ -63,15 +63,19 @@ Per il pannello di amministrazione, puoi creare un modello "Sef" oppure puoi uti
 
 
 Memorizzazione automatica delle URL in db e sostituzione automatica Meta Title e Description
------
+
 Inserire: 
+----
 in  _protected\ (Yii basic) o _protected\common\ (Yii advanced)
+----
  - models Sef.php e SefSearch.php
- 
+
 in _protected\backend\controllers
+----
  - controller SefController.php
  
 in FrontendController
+----
 use app\models\Sef (Yii basic)
 use common\models\Sef (Yii advanced)
 
@@ -101,4 +105,12 @@ public function afterAction($action, $result)
             return parent::render($view, $params);   
         }
 
-
+in params
+----
+//se impostato prende aggiunge prefisso
+'add_prefix_meta_titol' => 1,
+//se non impostato prende di default il nome del sito sempre se add_prefix è a 1
+'prefix_meta_titol' => 'prefix',
+//se non impostato prende di default ' | '
+'separazione_meta_titol' => ' | ',
+'meta_description' => 'Default meta description',

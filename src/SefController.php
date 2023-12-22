@@ -6,8 +6,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Sef;
-use common\models\SefSearch;
+use magicalella\models\Sef;
+use magicalella\models\SefSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

@@ -3,7 +3,10 @@
 * @author    Magilla Company <info@magilla.company>
 * @copyright 2023 Magilla Company
 */
-namespace common\models;
+/**
+* Se vuoi estendere
+ */
+namespace magicalella\sef;
 
 use Yii;
 use yii\helpers\Html;
@@ -17,70 +20,8 @@ use common\models\Task;
  * @property string $link_sef
  */
  // ! introdurre anche loyalty_id
-class Sef extends \yii\db\ActiveRecord
+class Sef extends magicalella\sef\Sef
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'sef';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['link'], 'required'],
-            [['link', 'link_sef'], 'string', 'max' => 255],
-            [['meta_title', 'meta_description'], 'string'],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => Yii::t('sef', 'ID'),
-            'link' => Yii::t('sef', 'Link'),
-            'link_sef' => Yii::t('sef', 'Link Sef'),
-            'meta_title' => Yii::t('sef', 'Meta Title'),
-            'meta_description' => Yii::t('sef', 'Meta Description'),
-        ];
-    }
-    
-    public function attributeHints()
-    {
-        return [
-            'link' => Yii::t('sef', 'Url originale'),
-            'link_sef' => Yii::t('sef', 'Url Sef'),
-            'meta_title' => Yii::t('sef', 'Se impostato prende quello in db con prefisso e separatore se in params add_prefix_meta_titol è impostato a 1, se non impostato prende il nome del sito '),
-            'meta_description' => Yii::t('sef', 'Se impostato prende quello in db , altrimenti quello impostato di default Yii::t(\'meta\',\'meta_description\')'),
-        ];
-    }
-    
-    /**
-    * Inserisce in db , se non già presente ,l'url
-    */
-    public static function inserisciSef($action,$request){
-        $model_sef = [];
-        $controller = $action->controller->id;
-        $view = $action->id;
-        $link = Self::_buildUrl($view,$controller,$request);
-        $model_sef = static::findOneByLink($link);
-        
-        if(!$model_sef){
-            $model_sef = new Sef();
-            $model_sef->link = $link;
-            if(!$model_sef->save()){
-                Yii::error(sprintf('Errore salvataggio sef: %s', print_r($model_sef->getErrors(), true)), __METHOD__);
-            }
-        }
-    }
     
     /**
     * Restituisce meta title 
