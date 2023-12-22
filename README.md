@@ -39,17 +39,17 @@ Utilizzo
 
 Nel file: `config/web.php` o `frontend/config/main.php` se yii advanced scrivi
 
-         'urlManager' => [
-         'enablePrettyUrl' => vero,
-         'showScriptName' => falso,
-         'regole' => [
-                 // Ci sono delle regole qui.
-                 [
-                     'classe' => 'magicalella\sef\SefRule',
-                     'IDconnessione' => 'db',
-                 ],
-             ],
-         ],
+        'urlManager' => [
+        'enablePrettyUrl' => true,
+        'showScriptName' => false,
+        'rules' => [
+                // Ci sono delle regole qui.
+                [ 
+                    'class' => 'alex290\sef\SefRule',
+                    'connectionID' => 'db',
+                ],
+            ],
+        ],
 
 Per il pannello di amministrazione, puoi creare un modello "Sef" oppure puoi utilizzare un modello "magicalella\sef\src\Sef" già pronto
 
