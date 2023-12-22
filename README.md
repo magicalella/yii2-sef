@@ -10,7 +10,7 @@ Il modo migliore per installare questa estensione è tramite [composer](http://g
 Lancia
 
 ```
-php compositore.phar require --prefer-dist magicalella/yii2-sef "*"
+php composer.phar require --prefer-dist magicalella/yii2-sef "*"
 ```
 
 o aggiungi
