@@ -27,11 +27,11 @@ yii migrate/up --migrationPath=@vendor/magicalella/yii2-sef/migrations
 
 Può essere creato manualmente. Vale a dire, la tabella `sef` ha solo 3 campi:
 
-id(chiaveprimaria, AUTO_INCREMENT);
-
-collegamento(varchar(255));
-
-link_sef(varchar(255)).
+id(primaryKey, AUTO_INCREMENT);
+link(varchar(255));
+link_sef(varchar(255));
+ meta_title(varchar(255));
+ meta_description(varchar(255));
 
 
 Utilizzo
@@ -56,6 +56,11 @@ Per il pannello di amministrazione, puoi creare un modello "Sef" oppure puoi uti
 'link' = questo è il campo del collegamento originale, ad esempio articolo/vista?id=49
 
 'link_sef' = questo campo è sinonimo dell'URL
+
+'meta_title' = Titolo della pagina
+
+'meta_description' = Meta description della pagina
+
 
 Memorizzazione automatica delle URL in db e sostituzione automatica Meta Title e Description
 -----
