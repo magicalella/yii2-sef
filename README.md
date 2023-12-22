@@ -45,7 +45,7 @@ Nel file: `config/web.php` o `frontend/config/main.php` se yii advanced scrivi
         'rules' => [
                 // Ci sono delle regole qui.
                 [ 
-                    'class' => 'alex290\sef\SefRule',
+                    'class' => 'magicalella\sef\SefRule',
                     'connectionID' => 'db',
                 ],
             ],
