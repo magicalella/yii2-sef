@@ -21,7 +21,7 @@ use common\models\Task;
  * @property string $link_sef
  */
  // ! introdurre anche loyalty_id
-class Sef extends magicalella\sef\Sef
+class Sef extends \magicalella\sef\Sef
 {
     
     /**

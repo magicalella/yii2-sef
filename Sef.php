@@ -142,7 +142,7 @@ class Sef extends \yii\db\ActiveRecord
     costruisce link 
     
      */
-    private static function _buildUrl($view,$controller,$request){
+    public static function _buildUrl($view,$controller,$request){
         $link = $controller.'/'.$view;
         $array_parametri = $request->getQueryParams();
         if(!empty($array_parametri)){
