@@ -6,7 +6,8 @@
 /**
 * Se vuoi estendere
  */
-namespace magicalella\sef;
+//namespace magicalella\sef;
+namespace common\models;
 
 use Yii;
 use yii\helpers\Html;
