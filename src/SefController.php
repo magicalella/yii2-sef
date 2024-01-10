@@ -7,8 +7,8 @@ namespace backend\controllers;
 
 use Yii;
 // se si estende la classe Sef qui mettere common\models\Sef (Yii advanced) o app\\models\Sef
-use magicalella\models\Sef;
-use magicalella\models\SefSearch;
+use magicalella\sef\Sef;
+use magicalella\sef\SefSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
