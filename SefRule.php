@@ -2,6 +2,7 @@
 
 namespace magicalella\sef;
 
+use Yii;
 use magicalella\sef\Sef;
 use yii\web\UrlRuleInterface;
 use yii\base\BaseObject;
@@ -29,11 +30,15 @@ class SefRule extends BaseObject implements UrlRuleInterface {
         }
     }
 
+    /**
+    Scrive url sef
+     */
     public function createUrl($manager, $route, $params) {
         //debug($route);
         //Determiniamo i controller che devono essere aggiunti alle pagine .html
         $controller = explode('/', $route)[0]; //Otteniamo il controllore        
         $html = '';
+        $language_code = false;
 
         //Se vengono passati parametri (ad esempio ?id=3&page=2) li salviamo in $link uno per uno
         $link = '';
@@ -55,12 +60,20 @@ class SefRule extends BaseObject implements UrlRuleInterface {
             }
             $link = substr($link, 0, -1); //rimuovere l'ultimo carattere (&)
         }
+        //se attivo motore lingue
+        $language_code = Sef::getLanguageCode();
+        if($language_code){
+            $url_language_code = $language_code.'/';
+        }
+        
         //Dal database otteniamo una riga con un collegamento a cui dovremo modificare
-        $sef = Sef::find()->where(['link' => $route . $link])
+        $sef = Sef::find()->where(['link' => $url_language_code . $route . $link])
         ->andWhere(['!=','link_sef',''])
         ->one();
 
         if ($sef) {
+            //se attivo motore lingue e prefisso lingua lo tolgo da url perchè verrà aggiunto da motore lingue
+            $sef->link_sef = Sef::removeLanguageCode($sef->link_sef,$language_code);
             //Se c'è, aggiungi l'impaginazione alla fine (?page=2)
             if ($page)
                 return $sef->link_sef . "?page=$page";
@@ -70,8 +83,11 @@ class SefRule extends BaseObject implements UrlRuleInterface {
         return false;
     }
 
+    /**
+    esegue url sef
+     */
     public function parseRequest($manager, $request) {
-        //Noi abbiamo URL
+        //prendiamo URL
         $pathInfo = $request->getPathInfo();
 
         //Otteniamo 1 parte, prima della barra, se presente
@@ -90,10 +106,15 @@ class SefRule extends BaseObject implements UrlRuleInterface {
           * $exception = true consente la ricerca URL nel database
         */
 
+        //se attivo motore lingue
+        $language_code = Sef::getLanguageCode();
+        if($language_code){
+            $url_language_code = $language_code.'/';
+        }
 
         //riceviamo i dati dal database per una riga contenente un dato alias
-        $sef = Sef::find()->where(['link_sef' => $pathInfo])->one();
-
+        $sef = Sef::find()->where(['link_sef' => $url_language_code.$pathInfo])->one();
+        $sef->link = Sef::removeLanguageCode($sef->link,$language_code);
         if ($sef) {
             //Divide una stringa come post/view?id=5 in un array in base al delimitatore
             $link_data = explode('?', $sef->link);

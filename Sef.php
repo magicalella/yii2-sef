@@ -18,6 +18,8 @@ use yii\helpers\Html;
  // ! introdurre anche loyalty_id
 class Sef extends \yii\db\ActiveRecord
 {
+    const IGNORE_CONTROLLER = [];
+    const IGNORE_VIEW = ['sso-app','error'];
     /**
      * {@inheritdoc}
      */
@@ -69,6 +71,7 @@ class Sef extends \yii\db\ActiveRecord
         $model_sef = [];
         $controller = $action->controller->id;
         $view = $action->id;
+        if(!in_array($controller, SELF::IGNORE_CONTROLLER) && !in_array($view, SELF::IGNORE_VIEW)){
         $link = Self::_buildUrl($view,$controller,$request);
         $model_sef = static::findOneByLink($link);
         
@@ -79,6 +82,7 @@ class Sef extends \yii\db\ActiveRecord
                 Yii::error(sprintf('Errore salvataggio sef: %s', print_r($model_sef->getErrors(), true)), __METHOD__);
             }
         }
+    }
     }
     
     /**
@@ -140,10 +144,17 @@ class Sef extends \yii\db\ActiveRecord
     
     /**
     costruisce link 
-    
      */
     public static function _buildUrl($view,$controller,$request){
-        $link = $controller.'/'.$view;
+        $link = '';
+        
+        //se attivo motore lingue
+        $url_language_code = Self::getLanguageCode();
+        if($url_language_code){
+            $link .= $url_language_code.'/';
+        }
+        $link .= $controller.'/'.$view;
+        
         $array_parametri = $request->getQueryParams();
         if(!empty($array_parametri)){
             // ! TODO elimina page dai parametri
@@ -151,6 +162,43 @@ class Sef extends \yii\db\ActiveRecord
             $link .= '?'.$parametri;
         }
         return $link;
+    }
+    
+    /**
+    Verifica se attivo motore lingue e restituisce il prefisso lingua delle url
+     */
+    public static function getLanguageCode(){
+        $url_language_code = false;
+        //se attivo motore lingue
+        if(Yii::$app->urlManager->enableLocaleUrls){
+            $lingua_default = Yii::$app->urlManager->defaultLanguage;
+            $lingue_attive = Yii::$app->urlManager->languages;
+            $lingua_attiva = Yii::$app->language;
+            
+            //se la lingua visualizzata è diversa da default
+            if($lingua_attiva != $lingua_default){
+                $url_language_code = array_search($lingua_attiva,$lingue_attive);
+            }
+        }
+        return $url_language_code;
+    }
+    
+    /**
+    * Rimuove da URLSef il codice lingua 
+    * @ $link_sef URLSef es: es/site/como-funciona 
+    *   $language_code codice lingua es: es
+    * return sef pulita da codice lingua es: site/como-funciona 
+    */
+    public static function removeLanguageCode($link_sef,$language_code){
+        if($language_code){
+            $array = explode('/', $link_sef);
+            $key = array_search($language_code, $array);
+            unset($array[$key]);
+            
+            //e ricompongo url
+            $link_sef = implode('/', $array);
+        }
+        return $link_sef;
     }
     
     public static function findOneByLink($link){
