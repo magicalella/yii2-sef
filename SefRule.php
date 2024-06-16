@@ -90,6 +90,9 @@ class SefRule extends BaseObject implements UrlRuleInterface {
         //prendiamo URL
         $pathInfo = $request->getPathInfo();
 
+        if($pathInfo == ''){
+            $pathInfo = 'site/index';
+        }
         //Otteniamo 1 parte, prima della barra, se presente
         $alias = explode('/', $pathInfo)[0];
         //Se alla fine è presente .html, lo rimuoviamo per la ricerca nel database
@@ -114,8 +117,9 @@ class SefRule extends BaseObject implements UrlRuleInterface {
 
         //riceviamo i dati dal database per una riga contenente un dato alias
         $sef = Sef::find()->where(['link_sef' => $url_language_code.$pathInfo])->one();
-        $sef->link = Sef::removeLanguageCode($sef->link,$language_code);
+        
         if ($sef) {
+            $sef->link = Sef::removeLanguageCode($sef->link,$language_code);
             //Divide una stringa come post/view?id=5 in un array in base al delimitatore
             $link_data = explode('?', $sef->link);
             //prendi solo la prima parte senza parametri (controller/azione)
