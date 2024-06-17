@@ -38,7 +38,7 @@ class SefRule extends BaseObject implements UrlRuleInterface {
         //Determiniamo i controller che devono essere aggiunti alle pagine .html
         $controller = explode('/', $route)[0]; //Otteniamo il controllore        
         $html = '';
-        $language_code = false;
+        $url_language_code = '';
 
         //Se vengono passati parametri (ad esempio ?id=3&page=2) li salviamo in $link uno per uno
         $link = '';

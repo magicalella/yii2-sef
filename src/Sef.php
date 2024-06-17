@@ -35,16 +35,15 @@ class Sef extends \magicalella\sef\Sef
         // $controller = $action->controller->id;
         // $view = $action->id;
         
-        if(Yii::$app->params['add_prefix_meta_titol'] ){
-            $meta_titol .= $prefix_meta_titol.$separazione_meta_titol;
-        }
         $link = Self::_buildUrl($view,$controller,$request);
         $model_sef = static::findOneByLink($link);
         
         if($model_sef){
-            if($model_sef->meta_title != ''){
-                $meta_titol .= $model_sef->meta_title;
-            }else{
+            if($model_sef->meta_title == ''){
+                $meta_titol = '';
+                if(Yii::$app->params['add_prefix_meta_titol'] ){
+                    $meta_titol .= $prefix_meta_titol.$separazione_meta_titol;
+                }
                 switch($controller){
                     case 'task':
                         if($view == 'view'){
@@ -57,9 +56,10 @@ class Sef extends \magicalella\sef\Sef
                         //pensare bene come fare
                         $meta_titol .= Yii::t('meta',$controller).' '.Yii::t('meta',$view);
                 }
+                $meta_titol = Html::encode(strip_tags($meta_titol));
             }
         }
-        return Html::encode(strip_tags($meta_titol));
+        return $meta_titol;
     }
     
 }

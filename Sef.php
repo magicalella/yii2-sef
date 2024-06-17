@@ -15,7 +15,19 @@ use yii\helpers\Html;
  * @property string $link
  * @property string $link_sef
  */
- // ! introdurre anche loyalty_id
+ /**
+ * per costruire URL seffato e tradotto es link in mail 
+ * use magicalella\sef\Sef; 
+ * in fz
+ * $language_code = Sef::getLanguageCode(true);
+ * if($language_code){
+ *     $url_language_code = $language_code.'/';
+ * }
+ * echo  Yii::$app->urlManagerFrontend->createUrl([$url_language_code.'site/come-funziona']);
+ * oppure 
+ * echo  Yii::$app->urlManager->createUrl([$url_language_code.'site/come-funziona']);
+  */
+ 
 class Sef extends \yii\db\ActiveRecord
 {
     const IGNORE_CONTROLLER = [];
@@ -142,6 +154,7 @@ class Sef extends \yii\db\ActiveRecord
         return $meta_description;
     }
     
+    
     /**
     costruisce link 
      */
@@ -166,8 +179,9 @@ class Sef extends \yii\db\ActiveRecord
     
     /**
     Verifica se attivo motore lingue e restituisce il prefisso lingua delle url
+    $ignora_lingua_default se true non fa verifica se lingua attiva è = a lingua default
      */
-    public static function getLanguageCode(){
+    public static function getLanguageCode($ignora_lingua_default = false){
         $url_language_code = false;
         //se attivo motore lingue
         if(Yii::$app->urlManager->enableLocaleUrls){
@@ -176,9 +190,10 @@ class Sef extends \yii\db\ActiveRecord
             $lingua_attiva = Yii::$app->language;
             
             //se la lingua visualizzata è diversa da default
-            if($lingua_attiva != $lingua_default){
+            if($lingua_attiva != $lingua_default || $ignora_lingua_default){
                 $url_language_code = array_search($lingua_attiva,$lingue_attive);
             }
+           
         }
         return $url_language_code;
     }
